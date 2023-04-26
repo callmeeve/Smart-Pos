@@ -51,6 +51,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   cloud_firestore: ^4.4.5
   firebase_auth: ^4.3.0
+  pin_code_fields: ^7.4.0
 
 dev_dependencies:
   flutter_test:

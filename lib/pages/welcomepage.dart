@@ -12,8 +12,8 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryBlue,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -25,76 +25,62 @@ class WelcomePage extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Smart Pos",
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: primaryBlue,
+                  ),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                const Spacer(),
-                Text(
-                  "Smart Pos",
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: primaryBlue,
-                    ),
+              const SizedBox(height: 10),
+              Text(
+                "Manage your business transactions efficiently and easily in your hand",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: primaryBlue,
                   ),
                 ),
-                Text(
-                  "Manage your business \n transactions efficiently and \n easily in your hand",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: textBlack,
+              ),
+              const SizedBox(height: 20),
+              CustomizedButton(
+                buttonText: 'Login',
+                textColor: textWhiteGrey,
+                buttonColor: primaryBlue,
+                borderColor: primaryBlue,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
                     ),
-                  ),
-                ),
-                const Spacer(),
-                CustomizedButton(
-                  buttonText: 'Login',
-                  textColor: textWhiteGrey,
-                  buttonColor: primaryBlue,
-                  borderColor: primaryBlue,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                      ),
-                    );
-                  },
-                ),
-                CustomizedButton(
-                  buttonText: 'Register',
-                  textColor: primaryBlue,
-                  buttonColor: Colors.white,
-                  borderColor: primaryBlue,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 45,
-                ),
-              ],
-            ),
-          )
+                  );
+                },
+              ),
+              CustomizedButton(
+                buttonText: 'Register',
+                textColor: primaryBlue,
+                buttonColor: Colors.white,
+                borderColor: primaryBlue,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegisterPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
