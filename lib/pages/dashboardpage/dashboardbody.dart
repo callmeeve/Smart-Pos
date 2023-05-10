@@ -13,7 +13,6 @@ class DashboardBody extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: primaryBlue,
         title: const Text('Dashboard'),
-        elevation: 8,
       ),
       drawer: const SideBar(),
       body: SingleChildScrollView(

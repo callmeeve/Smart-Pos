@@ -80,167 +80,165 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 45.0,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 45.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30.0,
+                  horizontal: 20.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 30.0,
-                    horizontal: 20.0,
-                  ),
-                  child: Text(
-                    "Welcome Back! \nGlad to see you again",
-                    style: TextStyle(
-                      color: Colors.blue.shade900,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  "Welcome Back! \nGlad to see you again",
+                  style: TextStyle(
+                    color: Colors.blue.shade900,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                CustomizedTextfield(
-                  myController: _emailController,
-                  hintText: "Enter your Email",
-                  isPassword: false,
-                ),
-                CustomizedTextfield(
-                  myController: _passwordController,
-                  hintText: "Enter your Password",
-                  isPassword: true,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                      vertical: 10.0,
-                    ),
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Text("Forgot Password?",
-                          style: TextStyle(
-                            color: Color(0xff6A707C),
-                            fontSize: 15,
-                          )),
-                    ),
-                  ),
-                ),
-                CustomizedButton(
-                  buttonText: "Login",
-                  buttonColor: primaryBlue,
-                  textColor: Colors.white,
-                  borderColor: Colors.transparent,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CashierPage(),
-                      ),
-                    );
-                  },
-                  // onPressed: login,
-                ),
-                Padding(
+              ),
+              CustomizedTextfield(
+                myController: _emailController,
+                hintText: "Enter your Email",
+                isPassword: false,
+              ),
+              CustomizedTextfield(
+                myController: _passwordController,
+                hintText: "Enter your Password",
+                isPassword: true,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,
-                    vertical: 20.0,
+                    vertical: 10.0,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 1,
-                        width: MediaQuery.of(context).size.height * 0.15,
-                        color: Colors.black,
-                      ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                      const Text(
-                        "or Login with",
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Text("Forgot Password?",
                         style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                      Container(
-                        height: 1,
-                        width: MediaQuery.of(context).size.height * 0.15,
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            UniconsLine.google,
-                            // color: Colors.blue,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account?",
-                        style: TextStyle(
-                          color: Colors.black,
+                          color: Color(0xff6A707C),
                           fontSize: 15,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterPage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "  Register Now",
-                          style: TextStyle(
-                            color: Colors.blue.shade900,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                        )),
                   ),
                 ),
-              ],
-            ),
+              ),
+              CustomizedButton(
+                buttonText: "Login",
+                buttonColor: primaryBlue,
+                textColor: Colors.white,
+                borderColor: Colors.transparent,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CashierPage(),
+                    ),
+                  );
+                },
+                // onPressed: login,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 20.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 1,
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    const Text(
+                      "or Login with",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    Container(
+                      height: 1,
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          UniconsLine.google,
+                          // color: Colors.blue,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "  Register Now",
+                        style: TextStyle(
+                          color: Colors.blue.shade900,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smartpos/models/product.dart';
 import 'package:smartpos/pages/attendancepage.dart';
 import 'package:smartpos/pages/cashierpage/cashierpage.dart';
 import 'package:smartpos/pages/dashboardpage/dashboardpage.dart';
@@ -58,7 +57,7 @@ class SideBar extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CashierPage(),
+                    builder: (context) => const CashierPage(),
                   ),
                 );
               },

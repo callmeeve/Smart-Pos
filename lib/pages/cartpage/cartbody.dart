@@ -44,7 +44,9 @@ class _CartBodyState extends State<CartBody> {
                 ],
               ),
             ),
-            child: CartCard(cart: demoCarts[index]),
+            child: CartCard(
+              cart: demoCarts[index],
+            ),
           ),
         ),
       ),

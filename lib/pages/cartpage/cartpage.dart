@@ -21,7 +21,6 @@ class CartPage extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: primaryBlue,
-      elevation: 10,
       iconTheme: IconThemeData(
         color: textWhiteGrey,
       ),
