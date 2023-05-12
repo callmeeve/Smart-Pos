@@ -13,6 +13,18 @@ import 'package:google_fonts/google_fonts.dart';
 class SideBar extends StatelessWidget {
   const SideBar({Key? key}) : super(key: key);
 
+  void logout(BuildContext context) {
+    // Clear any user-related data from the application state
+    // (e.g. user authentication tokens, user preferences, etc.)
+
+    // Navigate to the login screen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -165,15 +177,16 @@ class SideBar extends StatelessWidget {
               iconColor: primaryBlue,
               textColor: primaryBlue,
               title: const Text('Logout Kasir'),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                  (route) => false,
-                );
-              },
+              onTap: () => logout(context),
+              // onTap: () async {
+              //   await FirebaseAuth.instance.signOut();
+              //   // ignore: use_build_context_synchronously
+              //   Navigator.pushAndRemoveUntil(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => const LoginPage()),
+              //     (route) => false,
+              //   );
+              // },
             ),
           ],
         ),
