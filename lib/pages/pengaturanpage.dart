@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smartpos/components/settings_menu.dart';
 import 'package:smartpos/components/sidebar.dart';
 import 'package:smartpos/models/product.dart';
+import 'package:smartpos/pages/changepasswordpage.dart';
 import 'package:smartpos/pages/kelolaproduct.dart';
 import 'package:smartpos/pages/lihatprodukpage.dart';
 import 'package:smartpos/theme.dart';
@@ -14,6 +15,7 @@ class PengaturanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: primaryBlue,
         title: const Text('Pengaturan'),
@@ -55,10 +57,17 @@ class PengaturanPage extends StatelessWidget {
               },
             ),
             SettingsMenu(
-              title: "User Management",
+              title: "Ganti Password",
               textcolor: textBlack,
-              icon: UniconsLine.user_check,
-              onPress: () {},
+              icon: UniconsLine.keyhole_circle,
+              onPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangePasswordPage(),
+                  ),
+                );
+              },
             ),
             const SizedBox(
               height: 20,

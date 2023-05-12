@@ -56,81 +56,89 @@ class PesanPage extends StatelessWidget {
         backgroundColor: primaryBlue,
       ),
       drawer: const SideBar(),
-      body: ListView.builder(
-        itemCount: messages.length,
-        itemBuilder: (context, index) {
-          final message = messages[index];
-          return InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 24,
-                        backgroundImage: NetworkImage(message.image),
-                      ),
-                      if (message.isActive)
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            height: 16,
-                            width: 16,
-                            decoration: BoxDecoration(
-                              color: primaryBlue,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                width: 3,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 15.0,
+        ),
+        child: ListView.builder(
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            final message = messages[index];
+            return InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(
+                  15.0,
+                ),
+                child: Row(
+                  children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundImage: NetworkImage(message.image),
+                        ),
+                        if (message.isActive)
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 16,
+                              width: 16,
+                              decoration: BoxDecoration(
+                                color: primaryBlue,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  width: 3,
+                                ),
                               ),
                             ),
                           ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPadding,
                         ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: defaultPadding,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            message.sender,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              message.sender,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Opacity(
-                            opacity: 0.64,
-                            child: Text(
-                              message.messageText,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            const SizedBox(height: 8),
+                            Opacity(
+                              opacity: 0.64,
+                              child: Text(
+                                message.messageText,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Opacity(
-                    opacity: 0.64,
-                    child: Text(
-                      DateFormat('yyyy-MM-dd kk:mm').format(message.timestamp),
+                    Opacity(
+                      opacity: 0.64,
+                      child: Text(
+                        DateFormat('yyyy-MM-dd kk:mm')
+                            .format(message.timestamp),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
