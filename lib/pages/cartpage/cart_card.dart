@@ -14,7 +14,6 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = BorderRadius.all(Radius.circular(20));
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -42,7 +41,7 @@ class CartCard extends StatelessWidget {
                   color: textBlack,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5.0,
               ),
               Text(
@@ -53,7 +52,7 @@ class CartCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Colors.black45),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5.0,
               ),
               Text(

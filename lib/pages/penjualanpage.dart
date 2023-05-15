@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:smartpos/components/sidebar.dart';
-import 'package:smartpos/models/product.dart';
+import 'package:smartpos/models/Product.dart';
 import 'package:smartpos/theme.dart';
-import 'package:unicons/unicons.dart';
 
 class LaporanPenjualanPage extends StatefulWidget {
   const LaporanPenjualanPage({Key? key}) : super(key: key);
@@ -14,143 +13,215 @@ class LaporanPenjualanPage extends StatefulWidget {
 }
 
 class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
-  final TextEditingController _startDateController = TextEditingController();
-  final TextEditingController _endDateController = TextEditingController();
-
-  late DateTime _selectedStartDate;
-  late DateTime _selectedEndDate;
-
-  int totalSales = 0;
+  DateTime? _selectedDate;
+  List<Product> filteredProducts = [];
 
   @override
   void initState() {
     super.initState();
-    _selectedStartDate = DateTime.now().toLocal();
-    _selectedEndDate = DateTime.now().toLocal();
-    _startDateController.text =
-        DateFormat('dd MMMM yyyy').format(_selectedStartDate);
-    _endDateController.text =
-        DateFormat('dd MMMM yyyy').format(_selectedEndDate);
+    _selectedDate = products.isNotEmpty ? products.first.dateSold : null;
+    filterProducts();
+  }
+
+  void filterProducts() {
+    if (_selectedDate != null) {
+      filteredProducts = products
+          .where((product) =>
+              product.dateSold
+                  .isAfter(_selectedDate!.subtract(const Duration(days: 1))) &&
+              product.dateSold
+                  .isBefore(_selectedDate!.add(const Duration(days: 1))))
+          .toList();
+    } else {
+      filteredProducts = [];
+    }
+  }
+
+  void onDateChanged(DateTime? newValue) {
+    setState(() {
+      _selectedDate = newValue;
+      filterProducts();
+    });
+  }
+
+  int calculateTotalSales() {
+    int totalSales = 0;
+    for (var product in filteredProducts) {
+      totalSales += product.price * product.quantitySold;
+    }
+    return totalSales;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Laporan Penjualan"),
+        title: const Text('Laporan Penjualan'),
         backgroundColor: primaryBlue,
       ),
       drawer: const SideBar(),
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: <Widget>[
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 10.0,
-                vertical: 20.0,
+                horizontal: 8.0,
               ),
-              child: _buildDateField(
-                _startDateController,
-                "Start Date",
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Tanggal: ',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: DropdownButton<DateTime>(
+                        value: _selectedDate,
+                        onChanged: onDateChanged,
+                        items: generateDateItems(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        dropdownColor: Colors.white,
+                        underline:
+                            const SizedBox(), // Remove the default underline
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 10.0,
-                vertical: 10.0,
+                horizontal: 8.0,
               ),
-              child: _buildDateField(
-                _endDateController,
-                "End Date",
+              child: Text(
+                'Laporan Penjualan',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: products.length,
+                itemCount: filteredProducts.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Product product = products[index];
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
+                  Product product = filteredProducts[index];
+                  return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                      vertical: 15.0,
+                      vertical: 10.0,
+                      horizontal: 0,
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 32,
-                          backgroundImage: NetworkImage(product.image),
-                        ),
-                        const SizedBox(width: 15.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              product.title,
-                              style: GoogleFonts.poppins(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700,
-                                color: textBlack,
+                    child: Card(
+                      color: primaryBlue,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    DateFormat.yMd().format(product.dateSold),
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: textWhiteGrey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    product.title,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: textWhiteGrey,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Rp. ${product.price} x ${product.quantitySold}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: textWhiteGrey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Text(
-                              "${product.quantitySold} x Rp${product.price} = Rp${product.quantitySold * product.price}",
+                              'Rp. ${product.price * product.quantitySold}',
                               style: GoogleFonts.poppins(
-                                fontSize: 14.0,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: Colors.black45,
-                              ),
-                            ),
-                            Text(
-                              DateFormat('yyyy-MM-dd').format(
-                                product.dateSold,
-                              ),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black45,
+                                color: textWhiteGrey,
                               ),
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDateField(TextEditingController controller, String labelText) {
-    return InkWell(
-      onTap: () => _showDatePickerDialogue(
-        context: context,
-        controller: controller,
-      ),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: const OutlineInputBorder(),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.date_range),
-            const SizedBox(width: 10.0),
-            Expanded(
-              child: TextFormField(
-                controller: controller,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
+            Card(
+              color: primaryBlue,
+              elevation: 4, // Controls the shadow depth
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(8), // Gives the card rounded corners
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total Sales',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: textWhiteGrey,
+                      ),
+                    ),
+                    Text(
+                      'Rp. ${calculateTotalSales().toString()}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: textWhiteGrey,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -159,44 +230,25 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
       ),
     );
   }
+}
 
-  // A function handler for the date picker
-  Future<void> _showDatePickerDialogue({
-    required BuildContext context,
-    required TextEditingController controller,
-  }) async {
-    final DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2022),
-    );
-    if (selectedDate != null) {
-      setState(() {
-        // Update the date controller's value when a date is selected from the dialog
-        controller.text = DateFormat('dd MMMM yyyy').format(selectedDate);
+List<DropdownMenuItem<DateTime>> generateDateItems() {
+  Set<DateTime> uniqueDates = {};
 
-        // Check if both start and end dates are set to calculate sales
-        if (_startDateController.text.isNotEmpty &&
-            _endDateController.text.isNotEmpty) {
-          _selectedStartDate =
-              DateTime.parse(_startDateController.text).toLocal();
-          _selectedEndDate = DateTime.parse(_endDateController.text).toLocal();
-          totalSales = _getTotalSales();
-        }
-      });
+  for (var product in products) {
+    if (!uniqueDates.contains(product.dateSold)) {
+      uniqueDates.add(product.dateSold);
     }
   }
 
-// define a function to calculate and return the total sales within the selected date range
-  int _getTotalSales() {
-    int totalSales = 0;
-    for (Product product in products) {
-      if (product.dateSold.isAfter(_selectedStartDate) &&
-          product.dateSold.isBefore(_selectedEndDate)) {
-        totalSales += product.price * product.quantitySold;
-      }
-    }
-    return totalSales;
-  }
+  return uniqueDates
+      .map(
+        (date) => DropdownMenuItem<DateTime>(
+          value: date,
+          child: Text(
+            DateFormat.yMd().format(date),
+          ),
+        ),
+      )
+      .toList();
 }

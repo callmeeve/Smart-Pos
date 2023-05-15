@@ -95,7 +95,7 @@ class SideBar extends StatelessWidget {
               ),
               iconColor: primaryBlue,
               textColor: primaryBlue,
-              title: const Text('Laporan'),
+              title: const Text('Laporan Penjualan'),
               onTap: () {
                 Navigator.push(
                   context,

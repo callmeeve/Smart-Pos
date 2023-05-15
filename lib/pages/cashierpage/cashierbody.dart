@@ -61,7 +61,7 @@ class _CashierBodyState extends State<CashierBody> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(vertical: defaultPadding),
+          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
           child: SearchField(onChanged: onSearch),
         ),
         Categories(

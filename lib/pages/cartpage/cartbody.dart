@@ -15,11 +15,11 @@ class _CartBodyState extends State<CartBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30.0),
       child: ListView.builder(
         itemCount: demoCarts.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Dismissible(
             key: Key(demoCarts[index].product.id.toString()),
             direction: DismissDirection.endToStart,
@@ -29,13 +29,13 @@ class _CartBodyState extends State<CartBody> {
               });
             },
             background: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 color: secondaryYellow,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
-                children: [
+                children: const [
                   Spacer(),
                   Icon(
                     UniconsLine.trash,

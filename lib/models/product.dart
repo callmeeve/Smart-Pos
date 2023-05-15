@@ -44,7 +44,7 @@ List<Product> products = [
     image: "assets/images/chocolate.jpg",
     category: "Milk Based",
     dateSold: DateTime(2022, 8, 3),
-    quantitySold: 12,
+    quantitySold: 15,
   ),
   Product(
     id: 4,
