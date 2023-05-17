@@ -27,10 +27,9 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
     if (_selectedDate != null) {
       filteredProducts = products
           .where((product) =>
-              product.dateSold
-                  .isAfter(_selectedDate!.subtract(const Duration(days: 1))) &&
-              product.dateSold
-                  .isBefore(_selectedDate!.add(const Duration(days: 1))))
+              product.dateSold.year == _selectedDate!.year &&
+              product.dateSold.month == _selectedDate!.month &&
+              product.dateSold.day == _selectedDate!.day)
           .toList();
     } else {
       filteredProducts = [];
@@ -66,9 +65,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -80,9 +77,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey,
@@ -111,9 +106,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 'Laporan Penjualan',
                 style: GoogleFonts.poppins(
@@ -123,85 +116,109 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredProducts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Product product = filteredProducts[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 0,
-                    ),
-                    child: Card(
-                      color: primaryBlue,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+            Card(
+              color: primaryBlue,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  if (filteredProducts.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 16,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    DateFormat.yMd().format(product.dateSold),
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: textWhiteGrey,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    product.title,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: textWhiteGrey,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Rp. ${product.price} x ${product.quantitySold}',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: textWhiteGrey,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 8.0,
                             ),
-                            Text(
-                              'Rp. ${product.price * product.quantitySold}',
+                            child: Text(
+                              DateFormat.yMd()
+                                  .format(filteredProducts.first.dateSold),
                               style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                                 color: textWhiteGrey,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: filteredProducts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Product product = filteredProducts[index];
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 10.0,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              product.title,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: textWhiteGrey,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Rp. ${product.price} x ${product.quantitySold}',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: textWhiteGrey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          'Rp. ${product.price * product.quantitySold}',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: textWhiteGrey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                },
+                ],
               ),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Card(
               color: primaryBlue,
-              elevation: 4, // Controls the shadow depth
+              elevation: 4,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(8), // Gives the card rounded corners
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

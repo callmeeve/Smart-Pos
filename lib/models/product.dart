@@ -33,7 +33,7 @@ List<Product> products = [
     size: 8,
     image: "assets/images/americano.jpg",
     category: "Coffee Based",
-    dateSold: DateTime(2022, 8, 2),
+    dateSold: DateTime(2022, 8, 1),
     quantitySold: 15,
   ),
   Product(
@@ -43,7 +43,7 @@ List<Product> products = [
     size: 10,
     image: "assets/images/chocolate.jpg",
     category: "Milk Based",
-    dateSold: DateTime(2022, 8, 3),
+    dateSold: DateTime(2022, 8, 2),
     quantitySold: 15,
   ),
   Product(
@@ -53,7 +53,7 @@ List<Product> products = [
     size: 11,
     image: "assets/images/matcha.jpg",
     category: "Milk Based",
-    dateSold: DateTime(2022, 8, 4),
+    dateSold: DateTime(2022, 8, 3),
     quantitySold: 8,
   ),
   Product(
@@ -63,7 +63,7 @@ List<Product> products = [
     size: 12,
     image: "assets/images/lemonade.jpg",
     category: "Fresh",
-    dateSold: DateTime(2022, 8, 5),
+    dateSold: DateTime(2022, 8, 3),
     quantitySold: 10,
   ),
   Product(
@@ -73,7 +73,7 @@ List<Product> products = [
     size: 12,
     image: "assets/images/kopialpukat.jpg",
     category: "Signature",
-    dateSold: DateTime(2022, 8, 6),
+    dateSold: DateTime(2022, 8, 3),
     quantitySold: 30,
   ),
 ];

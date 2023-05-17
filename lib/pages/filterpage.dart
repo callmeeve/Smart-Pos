@@ -45,13 +45,13 @@ class _FilterPageState extends State<FilterPage> {
                   // Only show products within the selected price range
                   return false;
                 }
-                if (product.dateSold.millisecondsSinceEpoch <
-                        _dateRange.start.toInt() ||
-                    product.dateSold.millisecondsSinceEpoch >
-                        _dateRange.end.toInt()) {
-                  // Only show products sold within the selected date range
-                  return false;
-                }
+                // if (product.dateSold.millisecondsSinceEpoch <
+                //         _dateRange.start.toInt() ||
+                //     product.dateSold.millisecondsSinceEpoch >
+                //         _dateRange.end.toInt()) {
+                //   // Only show products sold within the selected date range
+                //   return false;
+                // }
                 return true;
               }).toList();
               Navigator.pop(context, filteredProducts);
