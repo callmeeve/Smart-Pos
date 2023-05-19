@@ -15,11 +15,12 @@ class LaporanPenjualanPage extends StatefulWidget {
 class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
   DateTime? _selectedDate;
   List<Product> filteredProducts = [];
+  List<DateTime> _uniqueDates = [];
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = products.isNotEmpty ? products.first.dateSold : null;
+    _selectedDate = products.isNotEmpty ? products.first.datetimeSold : null;
     filterProducts();
   }
 
@@ -27,12 +28,18 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
     if (_selectedDate != null) {
       filteredProducts = products
           .where((product) =>
-              product.dateSold.year == _selectedDate!.year &&
-              product.dateSold.month == _selectedDate!.month &&
-              product.dateSold.day == _selectedDate!.day)
+              product.datetimeSold.year == _selectedDate!.year &&
+              product.datetimeSold.month == _selectedDate!.month &&
+              product.datetimeSold.day == _selectedDate!.day)
           .toList();
+      Set<DateTime> uniqueDates = {};
+      for (var product in filteredProducts) {
+        uniqueDates.add(product.datetimeSold);
+      }
+      _uniqueDates = uniqueDates.toList();
     } else {
       filteredProducts = [];
+      _uniqueDates = [];
     }
   }
 
@@ -49,6 +56,16 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
       totalSales += product.price * product.quantitySold;
     }
     return totalSales;
+  }
+
+  int calculateSubtotal(DateTime datetime) {
+    int subtotal = 0;
+    for (Product product in filteredProducts) {
+      if (product.datetimeSold == datetime) {
+        subtotal += product.price * product.quantitySold;
+      }
+    }
+    return subtotal;
   }
 
   @override
@@ -100,7 +117,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
                             const SizedBox(), // Remove the default underline
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -116,97 +133,169 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Card(
-              color: primaryBlue,
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  if (filteredProducts.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 16,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0,
-                              vertical: 8.0,
-                            ),
-                            child: Text(
-                              DateFormat.yMd()
-                                  .format(filteredProducts.first.dateSold),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: textWhiteGrey,
-                              ),
-                            ),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: filteredProducts.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              Product product = filteredProducts[index];
-                              return Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0,
-                                      horizontal: 10.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              product.title,
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: textWhiteGrey,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Rp. ${product.price} x ${product.quantitySold}',
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                                color: textWhiteGrey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          'Rp. ${product.price * product.quantitySold}',
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: textWhiteGrey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+            Column(
+              children: [
+                if (filteredProducts.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 0,
                     ),
-                ],
-              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (var date in _uniqueDates)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Card(
+                                color: primaryBlue,
+                                elevation: 4,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0,
+                                              vertical: 8.0,
+                                            ),
+                                            child: Text(
+                                              'Tanggal: ${DateFormat.yMd().format(date)}',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: textWhiteGrey,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0,
+                                              horizontal: 10.0,
+                                            ),
+                                            child: Text(
+                                              'Jam: ${DateFormat.Hm().format(date)}',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: textWhiteGrey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: filteredProducts.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          Product product =
+                                              filteredProducts[index];
+                                          if (product.datetimeSold == date) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 10.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        product.title,
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: textWhiteGrey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Rp. ${product.price} x ${product.quantitySold}',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: textWhiteGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    'Rp. ${product.price * product.quantitySold}',
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: textWhiteGrey,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                          return const SizedBox.shrink();
+                                        },
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Subtotal:',
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textWhiteGrey,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Rp. ${calculateSubtotal(date).toString()}',
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textWhiteGrey,
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(
               height: 15,
@@ -253,8 +342,15 @@ List<DropdownMenuItem<DateTime>> generateDateItems() {
   Set<DateTime> uniqueDates = {};
 
   for (var product in products) {
-    if (!uniqueDates.contains(product.dateSold)) {
-      uniqueDates.add(product.dateSold);
+    bool isDuplicate = false;
+    for (var date in uniqueDates) {
+      if (isSameDate(date, product.datetimeSold)) {
+        isDuplicate = true;
+        break;
+      }
+    }
+    if (!isDuplicate) {
+      uniqueDates.add(product.datetimeSold);
     }
   }
 
@@ -268,4 +364,10 @@ List<DropdownMenuItem<DateTime>> generateDateItems() {
         ),
       )
       .toList();
+}
+
+bool isSameDate(DateTime date1, DateTime date2) {
+  return date1.year == date2.year &&
+      date1.month == date2.month &&
+      date1.day == date2.day;
 }

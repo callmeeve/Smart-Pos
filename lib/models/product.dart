@@ -1,7 +1,7 @@
 class Product {
   final String image, title, category;
   final int price, size, id, quantitySold;
-  final DateTime dateSold;
+  final DateTime datetimeSold;
 
   Product({
     required this.id,
@@ -10,7 +10,7 @@ class Product {
     required this.price,
     required this.category,
     required this.size,
-    required this.dateSold,
+    required this.datetimeSold,
     required this.quantitySold,
   });
 }
@@ -23,7 +23,7 @@ List<Product> products = [
     size: 12,
     image: "assets/images/eskopisusu.jpg",
     category: "Coffee Based",
-    dateSold: DateTime(2022, 8, 1),
+    datetimeSold: DateTime(2022, 8, 1, 10, 30),
     quantitySold: 20,
   ),
   Product(
@@ -33,7 +33,7 @@ List<Product> products = [
     size: 8,
     image: "assets/images/americano.jpg",
     category: "Coffee Based",
-    dateSold: DateTime(2022, 8, 1),
+    datetimeSold: DateTime(2022, 8, 1, 10, 30),
     quantitySold: 15,
   ),
   Product(
@@ -43,7 +43,7 @@ List<Product> products = [
     size: 10,
     image: "assets/images/chocolate.jpg",
     category: "Milk Based",
-    dateSold: DateTime(2022, 8, 2),
+    datetimeSold: DateTime(2022, 8, 1, 11, 30),
     quantitySold: 15,
   ),
   Product(
@@ -53,7 +53,7 @@ List<Product> products = [
     size: 11,
     image: "assets/images/matcha.jpg",
     category: "Milk Based",
-    dateSold: DateTime(2022, 8, 3),
+    datetimeSold: DateTime(2022, 8, 2, 11, 30),
     quantitySold: 8,
   ),
   Product(
@@ -63,7 +63,7 @@ List<Product> products = [
     size: 12,
     image: "assets/images/lemonade.jpg",
     category: "Fresh",
-    dateSold: DateTime(2022, 8, 3),
+    datetimeSold: DateTime(2022, 8, 3, 11, 30),
     quantitySold: 10,
   ),
   Product(
@@ -73,7 +73,7 @@ List<Product> products = [
     size: 12,
     image: "assets/images/kopialpukat.jpg",
     category: "Signature",
-    dateSold: DateTime(2022, 8, 3),
+    datetimeSold: DateTime(2022, 8, 3, 12, 30),
     quantitySold: 30,
   ),
 ];
