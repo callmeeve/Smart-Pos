@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:smartpos/components/sidebar.dart';
-import 'package:smartpos/models/Product.dart';
+import 'package:smartpos/models/product.dart';
 import 'package:smartpos/theme.dart';
 
 class LaporanPenjualanPage extends StatefulWidget {
@@ -16,6 +16,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
   DateTime? _selectedDate;
   List<Product> filteredProducts = [];
   List<DateTime> _uniqueDates = [];
+  List<String> invoiceNumbers = [];
 
   @override
   void initState() {
@@ -37,9 +38,11 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
         uniqueDates.add(product.datetimeSold);
       }
       _uniqueDates = uniqueDates.toList();
+      invoiceNumbers = generateInvoiceNumbers(filteredProducts);
     } else {
       filteredProducts = [];
       _uniqueDates = [];
+      invoiceNumbers = [];
     }
   }
 
@@ -47,6 +50,7 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
     setState(() {
       _selectedDate = newValue;
       filterProducts();
+      invoiceNumbers = generateInvoiceNumbers(filteredProducts);
     });
   }
 
@@ -56,6 +60,24 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
       totalSales += product.price * product.quantitySold;
     }
     return totalSales;
+  }
+
+  List<String> generateInvoiceNumbers(List<Product> products) {
+    invoiceNumbers = [];
+    for (int i = 0; i < products.length; i++) {
+      Product product = products[i];
+      if (product.datetimeSold.year == _selectedDate!.year &&
+          product.datetimeSold.month == _selectedDate!.month &&
+          product.datetimeSold.day == _selectedDate!.day) {
+        String formattedDateTime =
+            "${product.datetimeSold.day.toString().padLeft(2, '0')}${product.datetimeSold.month.toString().padLeft(2, '0')}${product.datetimeSold.year.toString().substring(2)}";
+        String invoiceNumber =
+            'BL-$formattedDateTime-${(invoiceNumbers.length + 1).toString().padLeft(3, '0')}';
+        invoiceNumbers.add(invoiceNumber);
+      }
+    }
+
+    return invoiceNumbers;
   }
 
   int calculateSubtotal(DateTime datetime) {
@@ -133,142 +155,99 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Column(
-              children: [
-                if (filteredProducts.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (var date in _uniqueDates)
-                          Column(
+            Expanded(
+              child: ListView.builder(
+                itemCount: _uniqueDates.length,
+                itemBuilder: (BuildContext context, int index) {
+                  DateTime date = _uniqueDates[index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        color: primaryBlue,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Card(
-                                color: primaryBlue,
-                                elevation: 4,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 10.0,
+                                    ),
+                                    child: Text(
+                                      'Nota: ${filteredProducts.isNotEmpty ? invoiceNumbers[index] : 'Tidak ada nomor nota'}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: textWhiteGrey,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
-                                      Row(
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0,
+                                          vertical: 8.0,
+                                        ),
+                                        child: Text(
+                                          DateFormat.yMd().format(date),
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: textWhiteGrey,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0,
+                                          horizontal: 10.0,
+                                        ),
+                                        child: Text(
+                                          DateFormat.Hm().format(date),
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: textWhiteGrey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: filteredProducts.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  Product product = filteredProducts[index];
+                                  if (product.datetimeSold == date) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 10.0,
+                                      ),
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0,
-                                              vertical: 8.0,
-                                            ),
-                                            child: Text(
-                                              'Tanggal: ${DateFormat.yMd().format(date)}',
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: textWhiteGrey,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0,
-                                              horizontal: 10.0,
-                                            ),
-                                            child: Text(
-                                              'Jam: ${DateFormat.Hm().format(date)}',
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: textWhiteGrey,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: filteredProducts.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          Product product =
-                                              filteredProducts[index];
-                                          if (product.datetimeSold == date) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 10.0,
-                                                horizontal: 10.0,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        product.title,
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: textWhiteGrey,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Rp. ${product.price} x ${product.quantitySold}',
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: textWhiteGrey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    'Rp. ${product.price * product.quantitySold}',
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: textWhiteGrey,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          }
-                                          return const SizedBox.shrink();
-                                        },
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Subtotal:',
+                                                product.title,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold,
@@ -276,26 +255,67 @@ class _LaporanPenjualanPageState extends State<LaporanPenjualanPage> {
                                                 ),
                                               ),
                                               Text(
-                                                'Rp. ${calculateSubtotal(date).toString()}',
+                                                'Rp. ${product.price} x ${product.quantitySold}',
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w400,
                                                   color: textWhiteGrey,
                                                 ),
                                               ),
                                             ],
-                                          )),
-                                    ],
-                                  ),
-                                ),
+                                          ),
+                                          Text(
+                                            'Rp. ${product.price * product.quantitySold}',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: textWhiteGrey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
                               ),
                               const SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Subtotal:',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: textWhiteGrey,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Rp. ${calculateSubtotal(date).toString()}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: textWhiteGrey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                      ],
-                    ),
-                  ),
-              ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 15,
