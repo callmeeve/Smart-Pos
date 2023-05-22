@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:smartpos/components/customized_button.dart';
-import 'package:smartpos/pages/cashierpage/cashierpage.dart';
+import 'package:smartpos/pages/inputtokopage.dart';
 import 'package:smartpos/theme.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -16,8 +16,8 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  TextEditingController _textEditingController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _textEditingController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -91,27 +91,30 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30.0),
-                PinCodeTextField(
-                  appContext: context,
-                  length: 4,
-                  obscureText: false,
-                  animationType: AnimationType.fade,
-                  textStyle: TextStyle(color: primaryBlue),
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    fieldHeight: 50,
-                    fieldWidth: 50,
-                    inactiveColor: primaryBlue,
-                    activeColor: primaryBlue,
-                    selectedColor: primaryBlue,
-                    errorBorderColor: Colors.red,
-                    activeFillColor: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: PinCodeTextField(
+                    appContext: context,
+                    length: 5,
+                    obscureText: false,
+                    animationType: AnimationType.fade,
+                    textStyle: TextStyle(color: primaryBlue),
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      fieldHeight: 50,
+                      fieldWidth: 50,
+                      inactiveColor: primaryBlue,
+                      activeColor: primaryBlue,
+                      selectedColor: primaryBlue,
+                      errorBorderColor: Colors.red,
+                      activeFillColor: Colors.white,
+                    ),
+                    controller: _textEditingController,
+                    onChanged: (value) {},
+                    onCompleted: (value) {
+                      _verifyCode(value);
+                    },
                   ),
-                  controller: _textEditingController,
-                  onChanged: (value) {},
-                  onCompleted: (value) {
-                    _verifyCode(value);
-                  },
                 ),
                 const SizedBox(height: 30.0),
                 CustomizedButton(
@@ -123,7 +126,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CashierPage(),
+                        builder: (context) => const InputTokoPage(),
                       ),
                     );
                   },

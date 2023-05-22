@@ -204,49 +204,30 @@ class SideBar extends StatelessWidget {
           horizontal: defaultPadding,
           vertical: 20.0,
         ),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(
-              radius: 30,
-              backgroundImage: NetworkImage(
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
+            Text(
+              'Azizah Olshop',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  color: textWhiteGrey,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Azizah Olshop',
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
+            const SizedBox(height: 5),
+            Text(
+              'Dinny Azizah',
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  color: textWhiteGrey,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 5),
-                Text(
-                  'Azizah Olshop',
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'Dinny Azizah',
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
