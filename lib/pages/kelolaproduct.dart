@@ -18,8 +18,20 @@ class _KelolaProductPageState extends State<KelolaProductPage> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _capitalpriceController = TextEditingController();
 
   bool _showContent = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    _descriptionController.dispose();
+    _categoryController.dispose();
+    _descriptionController.dispose();
+    _capitalpriceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +214,7 @@ class _KelolaProductPageState extends State<KelolaProductPage> {
                                 ),
                               ),
                               CustomizedTextfield(
-                                myController: _priceController,
+                                myController: _capitalpriceController,
                                 hintText: "Enter your product capital price",
                                 isPassword: false,
                               ),

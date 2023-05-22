@@ -22,6 +22,16 @@ class _RegisterPageState extends State<RegisterPage> {
       TextEditingController();
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,

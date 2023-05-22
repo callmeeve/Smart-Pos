@@ -16,7 +16,8 @@ class VerificationScreen extends StatefulWidget {
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _pinverificationController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -26,7 +27,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   void dispose() {
-    _textEditingController.dispose();
+    _pinverificationController.dispose();
     super.dispose();
   }
 
@@ -109,7 +110,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       errorBorderColor: Colors.red,
                       activeFillColor: Colors.white,
                     ),
-                    controller: _textEditingController,
+                    controller: _pinverificationController,
                     onChanged: (value) {},
                     onCompleted: (value) {
                       _verifyCode(value);

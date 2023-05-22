@@ -27,6 +27,18 @@ class _InputTokoPageState extends State<InputTokoPage> {
   bool _showContent = false;
 
   @override
+  void dispose() {
+    _businessnameController.dispose();
+    _locationController.dispose();
+    _productnameController.dispose();
+    _productpriceController.dispose();
+    _accountnumberController.dispose();
+    _descriptionController.dispose();
+    _capitalpriceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
