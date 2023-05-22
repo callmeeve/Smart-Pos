@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartpos/components/customized_button.dart';
 import 'package:smartpos/components/customized_textfield.dart';
-import 'package:smartpos/components/upload_photo.dart';
 import 'package:smartpos/pages/cashierpage/cashierpage.dart';
 import 'package:smartpos/theme.dart';
 import 'package:unicons/unicons.dart';
@@ -43,22 +42,24 @@ class _InputTokoPageState extends State<InputTokoPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
               ),
               child: Text(
-                "Product Details",
+                "Enter your business information",
                 style: GoogleFonts.poppins(
                   color: primaryBlue,
-                  fontSize: 24,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const ImageUploadForm(),
+            const SizedBox(
+              height: 10.0,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
