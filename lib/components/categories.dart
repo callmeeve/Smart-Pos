@@ -59,16 +59,24 @@ class _CategoriesState extends State<Categories> {
   }
 
   Widget _buildButton(int index) {
-    return Container(
-      width: 100,
-      height: 35,
-      decoration: BoxDecoration(
-        color: selectedIndex == index ? primaryBlue : Colors.transparent,
-        border: Border.all(
+    return ElevatedButton(
+      onPressed: () {
+        if (widget.onCategorySelected != null) {
+          widget.onCategorySelected!(index);
+        }
+        setState(() {
+          selectedIndex = index;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: selectedIndex == index ? primaryBlue : Colors.white,
+        side: BorderSide(
           color: selectedIndex == index ? Colors.transparent : primaryBlue,
           width: selectedIndex == index ? 2.0 : 1.0,
         ),
-        borderRadius: BorderRadius.circular(20.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
       ),
       child: Center(
         child: Text(

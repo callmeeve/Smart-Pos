@@ -7,33 +7,39 @@ class CustomizedButton extends StatelessWidget {
   final Color? borderColor;
   final VoidCallback? onPressed;
 
-  const CustomizedButton(
-      {super.key,
-      this.buttonText,
-      this.textColor,
-      this.buttonColor,
-      this.borderColor,
-      this.onPressed});
+  const CustomizedButton({
+    Key? key,
+    this.buttonText,
+    this.textColor,
+    this.buttonColor,
+    this.borderColor,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: InkWell(
-        onTap: onPressed,
-        child: Container(
-          height: 60,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: buttonColor!,
-            border: Border.all(width: 1, color: borderColor!),
+      padding: const EdgeInsets.all(10.0),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          foregroundColor: textColor,
+          backgroundColor: buttonColor,
+          side: BorderSide(
+            width: 1,
+            color: borderColor!,
+          ),
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
+        ),
+        child: SizedBox(
+          height: 60,
+          width: MediaQuery.of(context).size.width,
           child: Center(
             child: Text(
               buttonText!,
-              style: TextStyle(
-                color: textColor!,
+              style: const TextStyle(
                 fontSize: 20,
               ),
             ),

@@ -252,12 +252,12 @@ class _InputTokoPageState extends State<InputTokoPage> {
               textColor: Colors.white,
               borderColor: Colors.transparent,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CashierPage(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const CashierPage(),
+                //   ),
+                // );
               },
             ),
           ],
