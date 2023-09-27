@@ -26,7 +26,6 @@ class _KelolaProductPageState extends State<KelolaProductPage> {
   void dispose() {
     _nameController.dispose();
     _priceController.dispose();
-    _descriptionController.dispose();
     _categoryController.dispose();
     _descriptionController.dispose();
     _capitalpriceController.dispose();

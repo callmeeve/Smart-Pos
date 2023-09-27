@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartpos/models/product.dart';
 import 'package:smartpos/pages/filterpage.dart';
 import 'package:smartpos/theme.dart';
 import 'package:unicons/unicons.dart';
@@ -14,8 +13,6 @@ class SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<SearchField> {
-  late List<Product> _filteredProducts = [];
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -73,8 +70,6 @@ class _SearchFieldState extends State<SearchField> {
               );
 
               if (result != null) {
-                var showSaleItems = result['showSaleItems'] ?? false;
-
                 //TODO: apply filter logic based on selected options
               }
             },

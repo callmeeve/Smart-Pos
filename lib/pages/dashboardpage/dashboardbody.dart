@@ -15,9 +15,9 @@ class DashboardBody extends StatelessWidget {
         title: const Text('Dashboard'),
       ),
       drawer: const SideBar(),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
-          children: const <Widget>[
+          children: <Widget>[
             DateTimePickerReel(),
             LineChart(),
           ],

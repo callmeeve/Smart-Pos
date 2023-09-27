@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartpos/components/customized_button.dart';
 import 'package:smartpos/components/customized_textfield.dart';
-import 'package:smartpos/pages/cashierpage/cashierpage.dart';
 import 'package:smartpos/pages/loginpage.dart';
 import 'package:smartpos/pages/verificationpage.dart';
 import 'package:smartpos/theme.dart';

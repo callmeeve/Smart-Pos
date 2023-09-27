@@ -1,13 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smartpos/components/customized_button.dart';
 import 'package:smartpos/components/customized_textfield.dart';
 import 'package:smartpos/pages/cashierpage/cashierpage.dart';
-import 'package:smartpos/pages/dashboardpage/dashboardbody.dart';
 import 'package:smartpos/pages/registerpage.dart';
 import 'package:smartpos/theme.dart';
 import 'package:unicons/unicons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

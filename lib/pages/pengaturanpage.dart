@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smartpos/components/settings_menu.dart';
 import 'package:smartpos/components/sidebar.dart';
 import 'package:smartpos/models/product.dart';

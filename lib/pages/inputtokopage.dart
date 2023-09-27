@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartpos/components/customized_button.dart';
 import 'package:smartpos/components/customized_textfield.dart';
-import 'package:smartpos/pages/cashierpage/cashierpage.dart';
 import 'package:smartpos/theme.dart';
 import 'package:unicons/unicons.dart';
 

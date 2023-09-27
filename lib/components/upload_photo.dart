@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -31,18 +30,12 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
   //   }
   // }
 
-  File? _file;
-  PlatformFile? _platformFile;
-
   selectFile() async {
     final file = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ['png', 'jpg', 'jpeg']);
 
     if (file != null) {
-      setState(() {
-        _file = File(file.files.single.path!);
-        _platformFile = file.files.first;
-      });
+      setState(() {});
     }
   }
 
